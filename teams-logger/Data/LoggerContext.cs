@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using teams_logger.Models;
 
-namespace teams_logger
+namespace teams_logger.Data
 {
     public class LoggerContext : DbContext
     {

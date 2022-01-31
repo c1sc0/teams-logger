@@ -2,30 +2,30 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using teams_logger.Services;
 
-namespace teams_logger
+namespace teams_logger;
+
+internal class Program
 {
-    internal class Program
+    private static async Task Main(string[] args)
     {
-        private static async Task Main(string[] args)
-        {
-            var services = new ServiceCollection();
-            ConfigureServices(services);
-            await using var serviceProvider = services.BuildServiceProvider();
-            using var app = serviceProvider.GetService<TeamsLogger>();
+        var services = new ServiceCollection();
+        ConfigureServices(services);
+        await using var serviceProvider = services.BuildServiceProvider();
+        using var app = serviceProvider.GetService<TeamsLogger>();
 
-            await app.RunAsync();
-        }
 
-        private static void ConfigureServices(ServiceCollection services)
-        {
-            services.AddLogging(builder =>
-            {
-                builder.AddConsole();
-                builder.AddDebug();
-            }).AddTransient<TeamsLogger>();
-            services.AddScoped<IConfiguration>(_ =>
-                new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build());
-        }
+        await app.RunAsync();
+    }
+
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddLogging(builder => { builder.AddConsole().AddDebug(); }).AddTransient<TeamsLogger>();
+        services.AddScoped<IConfiguration>(_ =>
+            new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", true, true)
+                .AddEnvironmentVariables()
+                .Build());
     }
 }
