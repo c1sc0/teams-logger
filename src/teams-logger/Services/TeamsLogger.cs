@@ -137,7 +137,10 @@ public class TeamsLogger : IDisposable
             Raw = text
         };
         context.Add(loggerItem);
+        
         await context.SaveChangesAsync();
         return loggerItem;
     }
+
+   
 }
