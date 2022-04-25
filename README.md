@@ -6,5 +6,5 @@ Rename the sample config to `appsettings.json` and fill the necessary values (lo
 
 Docker:
 
-Build: `docker build -t teamslogger:latest .`
-Run: `docker run -v $(pwd)/appsettings.json:/app/appsettings.json -v teams-logger:/app -d teamslogger:latest` 
+Build: `docker build -t teams-logger:latest .`
+Run: `docker run -v $(pwd)/appsettings.json:/app/appsettings.json --restart always -v teams-logger:/app -d teams-logger:latest`
